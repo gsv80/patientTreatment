@@ -17,7 +17,14 @@ public class ProjectJsonTest {
 
     @Test
     public void patientSerializationTest() throws IOException {
-        Patient patient = new Patient(99L, "first", "last", "midname", 10);
+        Patient patient = new Patient(
+            99L, 
+            "first", 
+            "last", 
+            "midname", 
+            10,
+            999L
+        );
 
         assertThat(json.write(patient)).isStrictlyEqualToJson("/patient/expected.json");
 
@@ -39,6 +46,9 @@ public class ProjectJsonTest {
         assertThat(json.write(patient)).hasJsonPathNumberValue("@.age");
         assertThat(json.write(patient)).extractingJsonPathNumberValue("@.age").isEqualTo(10);
 
+        assertThat(json.write(patient)).hasJsonPathNumberValue("@.diseaseId");
+        assertThat(json.write(patient)).extractingJsonPathNumberValue("@.diseaseId").isEqualTo(999);
+
     }
 
     @Test
@@ -46,6 +56,7 @@ public class ProjectJsonTest {
         Disease disease = new Disease(12L, "085", "description of disease");
 
         assertThat(jsonDisease.write(disease)).isStrictlyEqualToJson("/patient/testDisease.json");
+
     }
 
     @Test
@@ -57,16 +68,18 @@ public class ProjectJsonTest {
                "firstName": "name",
                "lastName" : "last",
                "midName" : "midname",
-               "age":12
+               "age":12,
+               "diseaseId":999
            }
            """;
         assertThat(json.parse(expected))
-                .isEqualTo(new Patient(99L, "name", "last", "midname", 12));
+                .isEqualTo(new Patient(99L, "name", "last", "midname", 12, 999L));
         assertThat(json.parseObject(expected).id()).isEqualTo(99);
         assertThat(json.parseObject(expected).firstName()).isEqualTo("name");
         assertThat(json.parseObject(expected).lastName()).isEqualTo("last");
         assertThat(json.parseObject(expected).midName()).isEqualTo("midname");
         assertThat(json.parseObject(expected).age()).isEqualTo(12);
+        assertThat(json.parseObject(expected).diseaseId()).isEqualTo(999);
     }
 
     @Test
@@ -76,7 +89,7 @@ public class ProjectJsonTest {
             {
                 "id":16,
                 "code":"800-09",
-                "desc":"some description"
+                "descr":"some description"
             }
         """;
         assertThat(jsonDisease.parse(expected))
@@ -84,6 +97,6 @@ public class ProjectJsonTest {
 
         assertThat(jsonDisease.parseObject(expected).id()).isEqualTo(16);
         assertThat(jsonDisease.parseObject(expected).code()).isEqualTo("800-09");
-        assertThat(jsonDisease.parseObject(expected).desc()).isEqualTo("some description");
+        assertThat(jsonDisease.parseObject(expected).descr()).isEqualTo("some description");
     }
 }

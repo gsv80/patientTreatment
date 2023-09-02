@@ -3,5 +3,6 @@
   "firstName": "first",
   "lastName": "last",
   "midName": "midname",
-  "age": 10
+  "age": 10,
+  "diseaseId":999
 }

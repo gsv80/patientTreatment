@@ -44,6 +44,10 @@ class PatientTreatmentApplicationTests {
 		Number age = documentContext.read("$.age");
 		assertThat(age).isNotNull();
 		assertThat(age).isEqualTo(35);
+
+		Number diseaseId = documentContext.read( "$.diseaseId");
+		assertThat(diseaseId).isNot(null);
+		assertThat(diseaseId).isEqualTo(999);
 	}
 
 	@Test
