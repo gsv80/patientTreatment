@@ -12,6 +12,8 @@ import java.io.IOException;
 public class ProjectJsonTest {
     @Autowired
     private JacksonTester<Patient> json;
+    @Autowired
+    private JacksonTester<Disease> jsonDisease;
 
     @Test
     public void patientSerializationTest() throws IOException {
@@ -40,6 +42,13 @@ public class ProjectJsonTest {
     }
 
     @Test
+    public void diseaseSerializationTest() throws IOException {
+        Disease disease = new Disease(12L, "085", "description of disease");
+
+        assertThat(jsonDisease.write(disease)).isStrictlyEqualToJson("/patient/testDisease.json");
+    }
+
+    @Test
     public void patientDeserializationTest() throws IOException {
 
         String expected = """
@@ -58,5 +67,23 @@ public class ProjectJsonTest {
         assertThat(json.parseObject(expected).lastName()).isEqualTo("last");
         assertThat(json.parseObject(expected).midName()).isEqualTo("midname");
         assertThat(json.parseObject(expected).age()).isEqualTo(12);
+    }
+
+    @Test
+    public void diseaseDeserializationTest() throws IOException {
+
+        String expected = """    
+            {
+                "id":16,
+                "code":"800-09",
+                "desc":"some description"
+            }
+        """;
+        assertThat(jsonDisease.parse(expected))
+            .isEqualTo(new Disease(16L,"800-09","some description"));
+
+        assertThat(jsonDisease.parseObject(expected).id()).isEqualTo(16);
+        assertThat(jsonDisease.parseObject(expected).code()).isEqualTo("800-09");
+        assertThat(jsonDisease.parseObject(expected).desc()).isEqualTo("some description");
     }
 }

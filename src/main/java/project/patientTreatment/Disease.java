@@ -1,4 +1,6 @@
 package project.patientTreatment;
 
-public record Disease(Long id, String name) {
+import org.springframework.data.annotation.Id;
+
+public record Disease(@Id Long id, String code, String desc) {
 }
