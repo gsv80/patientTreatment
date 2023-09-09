@@ -53,7 +53,7 @@ class PatientTreatmentApplicationTests {
 	@Test
 	void shouldNotReturnAPatientWithAnUnknownId(){
 		ResponseEntity<String> response = restTemplate
-				.getForEntity("/patients/199999", String.class);
+				.getForEntity("/patients/99", String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		assertThat(response.getBody()).isBlank();
