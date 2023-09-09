@@ -28,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-jdbc'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'com.h2database:h2'
-	//implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	// implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 
